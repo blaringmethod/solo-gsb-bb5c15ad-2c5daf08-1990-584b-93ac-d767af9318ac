@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SRT 字幕时轴修复工具</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>SRT 字幕时轴修复工具</h1>
+    <p class="subtitle">
+      按「最短显示时长 · 最大每秒字符数 (CPS) · 最小间隔」联动调整字幕时间，调整保持字幕顺序且不越过场景切点；
+      无解时标出造成冲突的最小连续字幕段及原因。
+    </p>
+  </header>
+
+  <main>
+    <section class="panel" id="input-panel">
+      <h2>1. 上传字幕与参数设置</h2>
+
+      <div class="field">
+        <label for="file">字幕文件（.srt）</label>
+        <div class="file-row">
+          <input type="file" id="file" accept=".srt,.txt,text/plain" />
+          <button type="button" id="demo-btn" class="ghost">载入示例</button>
+        </div>
+        <p class="hint" id="file-hint">未选择文件</p>
+      </div>
+
+      <div class="grid">
+        <div class="field">
+          <label for="min-duration">最短显示时长（毫秒）</label>
+          <input type="number" id="min-duration" value="1000" min="0" step="100" />
+        </div>
+        <div class="field">
+          <label for="max-cps">最大每秒字符数（CPS）</label>
+          <input type="number" id="max-cps" value="20" min="1" step="1" />
+        </div>
+        <div class="field">
+          <label for="min-gap">最小间隔（毫秒）</label>
+          <input type="number" id="min-gap" value="100" min="0" step="10" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="cuts">场景切点（每行一个，支持 HH:MM:SS,mmm / MM:SS / 秒数；可留空）</label>
+        <textarea id="cuts" rows="4" placeholder="例如：&#10;00:01:12,500&#10;00:02:30,000&#10;145.5"></textarea>
+      </div>
+
+      <button id="repair-btn" class="primary" disabled>开始修复</button>
+      <p class="hint">说明：调整只将字幕向后平移 / 延长，不会提前于原始开始时间；冲突段将保留原始时间并标红。</p>
+    </section>
+
+    <section class="panel hidden" id="result-panel">
+      <h2>2. 修复结果</h2>
+      <div id="summary"></div>
+      <div id="conflicts"></div>
+      <div class="actions">
+        <button id="download-btn" class="primary">下载修复后的 SRT</button>
+      </div>
+
+      <h3>修复前后对照</h3>
+      <div class="table-wrap">
+        <table id="compare-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>状态</th>
+              <th>原开始</th>
+              <th>原结束</th>
+              <th>新开始</th>
+              <th>新结束</th>
+              <th>字符数 / 要求时长</th>
+              <th>文本</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>本工具在浏览器上传文件内容到本地服务器处理，不会外传。</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

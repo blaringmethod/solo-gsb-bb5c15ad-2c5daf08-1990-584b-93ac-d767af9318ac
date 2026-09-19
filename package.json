@@ -1,0 +1,17 @@
+{
+  "name": "srt-timing-repair",
+  "version": "1.0.0",
+  "private": true,
+  "description": "修复 SRT 字幕时间轴的 Web 应用：按最短显示时长 / 最大 CPS / 最小间隔联动调整，且不越过场景切点",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
